@@ -1,0 +1,4 @@
+.idea
+
+backend/node_modules
+frontend/angular-app/node_modules

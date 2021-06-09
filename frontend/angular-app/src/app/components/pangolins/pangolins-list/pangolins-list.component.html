@@ -1,0 +1,30 @@
+<main class="row p-2">
+  <div class="col">
+    <h2 class="my-2">Liste des pangolins</h2>
+
+    <section *ngIf="pangolins$ || error">
+      <div *ngIf="error">Problème technique...</div>
+      <ng-container *ngFor="let pangolin of pangolins$ | async">
+        <div *ngIf="pangolin['_id'] != profileId">
+          <div class="card my-3">
+            <div class="card-body">
+              <h5 class="card-title">Pangolin</h5>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">Age : {{pangolin['age'] || '-'}}</li>
+              <li class="list-group-item">Famille : {{pangolin['family'] || '-'}}</li>
+              <li class="list-group-item">Race : {{pangolin['breed'] || '-'}}</li>
+            </ul>
+            <div class="card-body">Email :
+              <a href="mailto:{{pangolin['email']}}" class="card-link">{{pangolin['email']}}</a>
+            </div>
+            <div class="card-body text-center">
+              <button class="btn btn-success mx-2" (click)="addFriend(pangolin['_id'])">Ajouter</button>
+              <button class="btn btn-danger mx-2" (click)="removeFriend(pangolin['id'])">Supprimer</button>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </section>
+  </div>
+</main>
