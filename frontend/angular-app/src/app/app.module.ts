@@ -2,15 +2,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { DefaultUrlSerializer, UrlSerializer, UrlTree } from '@angular/router';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { PangolinDetailsComponent } from './components/pangolins/pangolin-details/pangolin-details.component';
-import { HeaderComponent } from './components/header/header.component';
-import {RequestInterceptorService} from "./shared/interceptors/request-interceptor.service";
-import {HeaderModule} from "./components/header/header.module";
-import {FooterModule} from "./components/footer/footer.module";
+import { RequestInterceptorService } from './shared/interceptors/request-interceptor.service';
+import { HeaderModule } from './components/header/header.module';
+import { FooterModule } from './components/footer/footer.module';
 
 export class LowerCaseUrlSerializer extends DefaultUrlSerializer {
   parse(url: string): UrlTree {

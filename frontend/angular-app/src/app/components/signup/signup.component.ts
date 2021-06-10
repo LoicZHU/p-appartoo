@@ -50,23 +50,23 @@ export class SignupComponent implements OnInit, OnDestroy {
         Validators.required,
         Validators.minLength(8),
       ]),
-      pangolinName: this._fb.control('', [Validators.required]),
+      // pangolinName: this._fb.control('', [Validators.required]),
     });
 
-    this.form.get('pangolinName').valueChanges
-      .pipe(
-        debounceTime(1000),
-        distinctUntilChanged(),
-        map((value: any) => String(value).toLowerCase().trim()),
-        switchMap((pangolinName) => {
-          console.log('switchMap0', pangolinName)
-          return this._pangolinsService.getByPangolinName(pangolinName)
-        }),
-      )
-      .subscribe(
-        xx => console.log('sub', xx),
-        err => console.log('err!!!!', err)
-      )
+    // this.form.get('pangolinName').valueChanges
+    //   .pipe(
+    //     debounceTime(1000),
+    //     distinctUntilChanged(),
+    //     map((value: any) => String(value).toLowerCase().trim()),
+    //     switchMap((pangolinName) => {
+    //       console.log('switchMap0', pangolinName)
+    //       return this._pangolinsService.getByPangolinName(pangolinName)
+    //     }),
+    //   )
+    //   .subscribe(
+    //     xx => console.log('sub', xx),
+    //     err => console.log('err!!!!', err)
+    //   )
   }
 
   onSubmit() {

@@ -2,7 +2,6 @@ import { Pangolin } from '../models/pangolin.model';
 import { Request, Response } from 'express';
 
 class PangolinsController {
-
   async getByPangolinName(req: Request, res: Response) {
     // const pangolinName = req.params.pangolinName
     // console.log('pang name', pangolinName)

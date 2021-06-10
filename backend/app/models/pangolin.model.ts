@@ -1,4 +1,10 @@
-import { Document, HookNextFunction, Model, Schema } from 'mongoose';
+import {
+  Document,
+  HookNextFunction,
+  Model,
+  Schema,
+  SchemaTypes,
+} from 'mongoose';
 import mongoose from 'mongoose';
 import argon2, { verify } from 'argon2';
 
@@ -64,9 +70,7 @@ const pangolinSchema: Schema<IPangolinBaseDocument> = new Schema(
       default: 'Insecte',
       enum: ['Insecte', 'Kebap', 'Pizza', 'Salade'],
     },
-    friends: {
-      type: [{ id: String }],
-    },
+    friends: [{ type: SchemaTypes.ObjectId, ref: 'pangolin' }],
   },
   {
     timestamps: true,

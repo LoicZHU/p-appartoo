@@ -37,9 +37,9 @@ class ProfileController {
 
     try {
       const updatedPangolin = await Pangolin.findByIdAndUpdate(
-        id,
-        { $push: { friends: { email: friendPangolinId } } },
-        { new: true, runValidators: true },
+        { _id: id },
+        { $addToSet: { friends: { _id: friendPangolinId } } },
+        { new: true },
       ).exec();
 
       return res.status(200).json({ data: updatedPangolin });
@@ -54,8 +54,8 @@ class ProfileController {
 
     try {
       const updatedPangolin = await Pangolin.findByIdAndUpdate(
-        id,
-        { $pull: { friends: { email: friendPangolinId } } },
+        { _id: id },
+        { $pull: { friends: friendPangolinId } },
         { new: true },
       ).exec();
 
