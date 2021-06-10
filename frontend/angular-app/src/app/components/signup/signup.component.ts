@@ -1,9 +1,16 @@
-import { Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SignupService } from '../../shared/services/signup/signup.service';
-import {debounceTime, distinctUntilChanged, map, switchMap, takeUntil, tap} from 'rxjs/operators';
-import {fromEvent, Subject} from 'rxjs';
-import {PangolinsService} from "../../shared/services/pangolins/pangolins.service";
+import {
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  switchMap,
+  takeUntil,
+  tap,
+} from 'rxjs/operators';
+import { fromEvent, Subject } from 'rxjs';
+import { PangolinsService } from '../../shared/services/pangolins/pangolins.service';
 
 @Component({
   selector: 'app-signup',
@@ -18,7 +25,7 @@ export class SignupComponent implements OnInit, OnDestroy {
   constructor(
     private readonly _fb: FormBuilder,
     private readonly _signupService: SignupService,
-    private readonly _pangolinsService: PangolinsService,
+    private readonly _pangolinsService: PangolinsService
   ) {}
 
   ngOnInit(): void {

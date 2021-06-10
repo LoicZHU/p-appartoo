@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(
     private readonly _fb: FormBuilder,
     private readonly _authService: AuthService,
-    private readonly _router: Router,
+    private readonly _router: Router
   ) {}
 
   ngOnInit(): void {
@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((res) => {
         this._authService.setToken(res['access_token']);
-        this._authService.setCurrentPangolinId(res['pangolinId'])
+        this._authService.setCurrentPangolinId(res['pangolinId']);
         this._router.navigate(['']);
       });
   }

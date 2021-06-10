@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProfileService } from '../../../shared/services/profile/profile.service';
 import { AuthService } from '../../../shared/services/auth/auth.service';
-import {map, takeUntil, tap} from 'rxjs/operators';
+import { map, takeUntil, tap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -27,7 +27,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
   currentPangolinId: string;
   form: FormGroup;
   profileData;
-  error: string
+  error: string;
 
   constructor(
     private readonly _fb: FormBuilder,
@@ -47,7 +47,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
       .edit(this.currentPangolinId)
       .pipe(
         takeUntil(this.destroy$),
-        tap((res) => this.error = res['error']),
+        tap((res) => (this.error = res['error'])),
         map((res) => res['data'])
       )
       .subscribe((data) => {

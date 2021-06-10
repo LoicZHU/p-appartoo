@@ -32,7 +32,7 @@ export class AuthService {
   logout(): void {
     this.setToken(null);
     this._isAuthenticated$.next(false);
-    localStorage.removeItem(this.currentPangolinIdKey)
+    localStorage.removeItem(this.currentPangolinIdKey);
     this._router.navigate(['/login']);
   }
 

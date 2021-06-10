@@ -8,7 +8,7 @@ import {
 import { AuthService } from '../services/auth/auth.service';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import {Router} from "@angular/router";
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +16,7 @@ import {Router} from "@angular/router";
 export class RequestInterceptorService implements HttpInterceptor {
   constructor(
     private readonly _authService: AuthService,
-    private readonly _router: Router,
+    private readonly _router: Router
   ) {}
 
   intercept(
@@ -42,7 +42,7 @@ export class RequestInterceptorService implements HttpInterceptor {
   }
 
   private handleAuthError() {
-    this._authService.deleteToken()
+    this._authService.deleteToken();
     this._router.navigateByUrl('login');
   }
 }

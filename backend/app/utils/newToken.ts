@@ -18,11 +18,9 @@ export function newToken(pangolin: IPangolin): IToken {
   } else {
     return {
       pangolinId: pangolin.id,
-      access_token: sign(
-        { pangolinId: pangolin.id },
-        secretKey,
-        { expiresIn: '17h' },
-      ),
+      access_token: sign({ pangolinId: pangolin.id }, secretKey, {
+        expiresIn: '17h',
+      }),
     };
   }
 }
