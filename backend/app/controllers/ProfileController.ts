@@ -6,7 +6,7 @@ class ProfileController {
     const id = req.params.id;
 
     try {
-      const pangolin = await Pangolin.findById(id).exec();
+      const pangolin = await Pangolin.findById(id).populate('friends').exec();
 
       return res.status(200).json({ data: pangolin });
     } catch (e) {

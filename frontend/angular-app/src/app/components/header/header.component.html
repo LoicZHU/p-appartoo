@@ -1,6 +1,6 @@
 <header class="row no-gutters">
   <div class="col-12 bg-primary">
-    <h1 class="p-2">
+    <h1 class="p-2 my-auto">
       <a class="text-white text-decoration-none" routerLink="/">Pangobook</a>
     </h1>
   </div>
@@ -17,8 +17,9 @@
     <div class="d-flex justify-content-end my-3 mx-3">
       <button class="btn btn-primary mx-2" (click)="onLoginClick()" *ngIf="!isAuthenticated">Se connecter</button>
       <button class="btn btn-success mx-2" (click)="onSignupClick()" *ngIf="!isAuthenticated">S'inscrire</button>
-      <a class="my-auto mx-4" routerLink="/profil" *ngIf="isAuthenticated">Modifier mon profil</a>
-      <button class="btn btn-primary" (click)="onLogoutClick()" *ngIf="isAuthenticated">Se déconnecter</button>
+      <a class="my-auto mx-3" routerLink="/profil/amis" *ngIf="isAuthenticated">Amis</a>
+      <a class="my-auto mx-3" routerLink="/profil" *ngIf="isAuthenticated">Modifier mon profil</a>
+      <button class="btn btn-primary ms-3" (click)="onLogoutClick()" *ngIf="isAuthenticated">Se déconnecter</button>
     </div>
   </div>
 </header>

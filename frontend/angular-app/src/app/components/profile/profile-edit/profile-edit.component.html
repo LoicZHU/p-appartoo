@@ -2,41 +2,42 @@
   <div class="col">
     <app-header></app-header>
 
-    <main class="row p-2">
-      <div class="col">
-        <h2 class="my-2">Modifier mon profil</h2>
-        <form class="border border-secondary rounded p-3 bg-white" [formGroup]="form" (ngSubmit)="onSubmit()">
-          <div class="mb-3">
-            <label class="form-label" for="age">Age</label>
-            <input class="form-control" type="number" id="age" name="age" min="0" placeholder="Entrer votre âge"
-              formControlName="age">
-          </div>
-          <div class="mb-3">
-            <label class="form-label" for="family">Famille</label>
-            <select class="form-select" name="family" id="family" formControlName="family">
-              <option value="">Choisir une espèce</option>
-              <option value="{{family}}" *ngFor="let family of families">{{family}}</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label class="form-label" for="breed">Race</label>
-            <select class="form-select" name="breed" id="breed" formControlName="breed">
-              <option value="">Choisir une race</option>
-              <option value="{{breed}}" *ngFor="let breed of breeds">{{breed}}</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label class="form-label" for="feed">Nourriture</label>
-            <select class="form-select" name="feed" id="feed" formControlName="feed">
-              <option value="">Choisir une nourriture</option>
-              <option value="{{feed}}" *ngFor="let feed of feeds">{{feed}}</option>
-            </select>
-          </div>
-          <button class="btn btn-success" [disabled]="form.invalid">Modifier</button>
-        </form>
+    <main class="p-2">
+     <div class="row">
+       <div class="col">
+         <h2 class="my-2">Modifier mon profil</h2>
+         <form class="border border-secondary rounded p-3 bg-white" [formGroup]="form" (ngSubmit)="onSubmit()">
+           <div class="mb-3">
+             <label class="form-label" for="age">Age</label>
+             <input class="form-control" type="number" id="age" name="age" min="0" placeholder="Entrer votre âge" formControlName="age">
+           </div>
+           <div class="mb-3">
+             <label class="form-label" for="family">Famille</label>
+             <select class="form-select" name="family" id="family" formControlName="family">
+               <option value="">Choisir une espèce</option>
+               <option value="{{family}}" *ngFor="let family of families">{{family}}</option>
+             </select>
+           </div>
+           <div class="mb-3">
+             <label class="form-label" for="breed">Race</label>
+             <select class="form-select" name="breed" id="breed" formControlName="breed">
+               <option value="">Choisir une race</option>
+               <option value="{{breed}}" *ngFor="let breed of breeds">{{breed}}</option>
+             </select>
+           </div>
+           <div class="mb-3">
+             <label class="form-label" for="feed">Nourriture</label>
+             <select class="form-select" name="feed" id="feed" formControlName="feed">
+               <option value="">Choisir une nourriture</option>
+               <option value="{{feed}}" *ngFor="let feed of feeds">{{feed}}</option>
+             </select>
+           </div>
+           <button class="btn btn-success" [disabled]="form.invalid">Modifier</button>
+         </form>
 
-        <div *ngIf="error">Problème technique...</div>
-      </div>
+         <div *ngIf="error">Problème technique...</div>
+       </div>
+     </div>
     </main>
   </div>
 </div>

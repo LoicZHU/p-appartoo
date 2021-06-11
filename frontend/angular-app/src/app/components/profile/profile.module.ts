@@ -6,9 +6,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ProfileEditComponent } from './profile-edit/profile-edit.component';
 import { HeaderModule } from '../header/header.module';
 import { ProfileComponent } from './profile.component';
+import { ProfileFriendsListComponent } from './profile-friends-list/profile-friends-list.component';
 
 @NgModule({
-  declarations: [ProfileComponent, ProfileEditComponent],
+  declarations: [ProfileComponent, ProfileEditComponent, ProfileFriendsListComponent],
   imports: [
     CommonModule,
     ProfileRoutingModule,

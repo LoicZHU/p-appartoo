@@ -45,6 +45,7 @@ const pangolinSchema: Schema<IPangolinBaseDocument> = new Schema(
     // },
     age: {
       type: Number,
+      default: 0,
     },
     family: {
       type: String,
@@ -82,10 +83,9 @@ pangolinSchema.pre<IPangolin>(
   async function hashPassword(next: HookNextFunction): Promise<void> {
     try {
       // docs: https://github.com/ranisalt/node-argon2#readme | https://www.npmjs.com/package/argon2
-      const hash: string = await argon2.hash(this.password, {
+      this.password = await argon2.hash(this.password, {
         type: argon2.argon2id,
       });
-      this.password = hash;
 
       next();
       return;

@@ -1,6 +1,6 @@
 <main class="row no-gutters">
   <div class="col-12 bg-primary">
-    <h1 class="p-2">
+    <h1 class="p-2 my-auto">
       <a class="text-white text-decoration-none" routerLink="/">Pangobook</a>
     </h1>
   </div>
@@ -10,10 +10,11 @@
     <form class="border border-secondary rounded p-3" [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="mb-3">
         <label class="form-label" for="email">Email</label>
-        <input class="form-control" type="text" id="email" name="email" formControlName="email">
+        <input class="form-control" type="text" id="email" name="email" appAutofocus formControlName="email">
       </div>
       <div class="mb-3">
-        <label class="form-label" for="password">Mot de passe</label>
+        <label class="form-label" for="password">Mot de passe (caractères minimum : {{passwordMinLength}})
+        </label>
         <input class="form-control" type="password" id="password" name="password" formControlName="password">
       </div>
 <!--      <div class="mb-3">-->

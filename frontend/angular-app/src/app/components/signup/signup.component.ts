@@ -20,6 +20,7 @@ import { PangolinsService } from '../../shared/services/pangolins/pangolins.serv
 export class SignupComponent implements OnInit, OnDestroy {
   @ViewChild('pangolinName') pangolinNameInput;
   private destroy$: Subject<boolean> = new Subject<boolean>();
+  readonly passwordMinLength: number = 8;
   form: FormGroup;
 
   constructor(
@@ -55,7 +56,7 @@ export class SignupComponent implements OnInit, OnDestroy {
       email: this._fb.control('', [Validators.required, Validators.email]),
       password: this._fb.control('', [
         Validators.required,
-        Validators.minLength(8),
+        Validators.minLength(this.passwordMinLength),
       ]),
       // pangolinName: this._fb.control('', [Validators.required]),
     });

@@ -24,9 +24,10 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
     'Pangolin à petites écailles',
   ];
   feeds: string[] = ['Insecte', 'Kebap', 'Pizza', 'Salade'];
-  currentPangolinId: string;
+  profileId: string;
   form: FormGroup;
   profileData;
+  friends;
   error: string;
 
   constructor(
@@ -34,7 +35,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
     private readonly _profileService: ProfileService,
     private readonly _authService: AuthService
   ) {
-    this.currentPangolinId = localStorage.getItem('pangolin_id');
+    this.profileId = localStorage.getItem('pangolin_id');
   }
 
   ngOnInit(): void {
@@ -44,7 +45,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
 
   getProfileInformations() {
     this.profileData = this._profileService
-      .edit(this.currentPangolinId)
+      .edit(this.profileId)
       .pipe(
         takeUntil(this.destroy$),
         tap((res) => (this.error = res['error'])),
@@ -56,6 +57,8 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
         } else {
           const { age, breed, family, feed } = data;
           this.form.setValue({ age, breed, family, feed });
+
+          this.friends = data['friends'];
         }
       });
   }
@@ -87,7 +90,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
 
     this._profileService
       .update({
-        id: this.currentPangolinId,
+        id: this.profileId,
         ...this.form.value,
       })
       .pipe(takeUntil(this.destroy$))
