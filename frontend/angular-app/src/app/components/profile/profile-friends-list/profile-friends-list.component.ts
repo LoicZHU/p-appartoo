@@ -42,7 +42,7 @@ export class ProfileFriendsListComponent implements OnInit, OnDestroy {
       .subscribe();
   }
 
-  getFriends() {
+  getFriends(): void {
     this._profileService
       .getFriends()
       .pipe(takeUntil(this.destroy$))
