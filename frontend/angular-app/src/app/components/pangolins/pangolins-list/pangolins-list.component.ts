@@ -31,7 +31,7 @@ export class PangolinsListComponent implements OnInit, OnDestroy {
 
   subscribeToFriendsProfile(): void {
     this._profileService
-      .getFriends()
+      .getFriendsIds()
       .pipe(
         takeUntil(this.destroy$),
         map((res) => res)

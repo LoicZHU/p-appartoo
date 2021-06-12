@@ -26,26 +26,27 @@ export class ProfileFriendsListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getProfileInformations();
+    this.getFriends();
   }
 
   getProfileInformations(): void {
     this._profileService
-      .edit(this.profileId)
+      .getById(this.profileId)
       .pipe(
         takeUntil(this.destroy$),
         tap((res) => {
-          console.log(res)
-          return (this.error = res['error'])
+          return (this.error = res['error']);
         }),
         map((res) => res['data'])
       )
-      .subscribe((data) => {
-        if (!data) {
-          return;
-        } else {
-          this.friends = data['friends'];
-        }
-      });
+      .subscribe();
+  }
+
+  getFriends() {
+    this._profileService
+      .getFriends()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((friends) => (this.friends = friends));
   }
 
   removeFriend(friendPangolinId: string): void {

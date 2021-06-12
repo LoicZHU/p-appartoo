@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment.prod';
-import {BehaviorSubject, Observable} from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 @Injectable({
@@ -9,9 +9,12 @@ import { tap } from 'rxjs/operators';
 })
 export class ProfileService {
   private readonly _apiUrl: string;
-  private friendIds$: BehaviorSubject<string[]> = new BehaviorSubject<string[]>(
-    []
-  );
+  private readonly friendIds$: BehaviorSubject<string[]> = new BehaviorSubject<
+    string[]
+  >([]);
+  private readonly friends$: BehaviorSubject<any[]> = new BehaviorSubject<
+    any[]
+  >([]);
 
   constructor(private readonly _http: HttpClient) {
     this._apiUrl = environment.apiUrl;
@@ -26,6 +29,7 @@ export class ProfileService {
         const friends = res['data']['friends'];
         const friendsIds = friends.map((friend) => friend._id);
 
+        this.friends$.next(friends)
         this.friendIds$.next(friendsIds);
       })
     );
@@ -45,8 +49,12 @@ export class ProfileService {
   }
 
   // --- friends
-  getFriends(): BehaviorSubject<string[]> {
+  getFriendsIds(): BehaviorSubject<string[]> {
     return this.friendIds$;
+  }
+
+  getFriends(): BehaviorSubject<any[]> {
+    return this.friends$;
   }
 
   addFriend({ id, friendPangolinId }): Observable<any> {
@@ -57,8 +65,8 @@ export class ProfileService {
       })
       .pipe(
         tap((res) => {
-          const friends = res['data']['friends'];
-          this.friendIds$.next(friends);
+          const friendsIds = res['data']['friends'];
+          this.friendIds$.next(friendsIds);
         })
       );
   }
@@ -70,8 +78,13 @@ export class ProfileService {
       })
       .pipe(
         tap((res) => {
-          const friends = res['data']['friends'];
-          this.friendIds$.next(friends);
+          const friendsIds = res['data']['friends'];
+          const friends = [...this.friends$.value]
+          const friendToRemoveIndex = this.friends$.value.findIndex((friendObj) => friendObj._id == friendPangolinId)
+          friends.splice(friendToRemoveIndex, 1)
+
+          this.friendIds$.next(friendsIds);
+          this.friends$.next(friends)
         })
       );
   }
