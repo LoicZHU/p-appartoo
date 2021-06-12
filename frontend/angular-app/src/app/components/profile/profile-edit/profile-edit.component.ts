@@ -27,7 +27,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
   profileId: string;
   form: FormGroup;
   profileData;
-  friends;
+  friends: any[];
   error: string;
 
   constructor(
@@ -43,7 +43,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
     this.getProfileInformations();
   }
 
-  getProfileInformations() {
+  getProfileInformations(): void {
     this.profileData = this._profileService
       .edit(this.profileId)
       .pipe(
@@ -63,7 +63,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
       });
   }
 
-  initForm() {
+  initForm(): void {
     this.form = this._fb.group({
       age: this._fb.control('', [
         Validators.required,
@@ -76,7 +76,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
     });
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.form.invalid) {
       return;
     } else {
@@ -84,7 +84,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
     }
   }
 
-  updateProfile() {
+  updateProfile(): void {
     const age = +this.form.get('age').value;
     this.form.patchValue({ age: age });
 
@@ -97,7 +97,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
       .subscribe();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy$.next(false);
     this.destroy$.unsubscribe();
   }

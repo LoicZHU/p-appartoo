@@ -2,8 +2,8 @@
 
 ## Getting started
 ### Install dependencies
-- Go into `backend` folder and install with `npm` or `yarn`.
-- Go into `frontend` folder and install with `npm` or `yarn`.
+- Go into `backend` folder and install with `npm install` or `yarn`.
+- Go into `frontend` folder and install with `npm install` or `yarn`.
 
 ### Launch app
 - Go into `backend` folder:

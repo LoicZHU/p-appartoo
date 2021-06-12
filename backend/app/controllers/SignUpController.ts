@@ -3,8 +3,8 @@ import { Pangolin } from '../models/pangolin.model';
 import { IToken, newToken } from '../utils/newToken';
 
 class SignUpController {
-  async signUp(req: Request, res: Response) {
-    const { email, password, pangolinName } = req.body;
+  async signUp(req: Request, res: Response): Promise<Response> {
+    const { email, password /*,pangolinName*/ } = req.body;
     const validRequestBody = Boolean(
       email && password && password.length >= 8 /*&& pangolinName*/,
     );

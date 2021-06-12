@@ -47,11 +47,11 @@ export class SignupComponent implements OnInit, OnDestroy {
     console.log(this.pangolinNameInput);
   }
 
-  getNativeElement(el) {
+  getNativeElement(el): void {
     return el._elementRef.nativeElement;
   }
 
-  initForm() {
+  initForm(): void {
     this.form = this._fb.group({
       email: this._fb.control('', [Validators.required, Validators.email]),
       password: this._fb.control('', [
@@ -77,7 +77,7 @@ export class SignupComponent implements OnInit, OnDestroy {
     //   )
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.form.invalid) {
       return;
     } else {
@@ -88,7 +88,7 @@ export class SignupComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

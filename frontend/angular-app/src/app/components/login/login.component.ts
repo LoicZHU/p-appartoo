@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.initForm();
   }
 
-  initForm() {
+  initForm(): void {
     this.form = this._fb.group({
       email: this._fb.control('', [Validators.required, Validators.email]),
       password: this._fb.control('', [
@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     });
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.form.invalid) {
       return;
     } else {
@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
   }
 
-  login() {
+  login(): void {
     this._authService
       .login(this.form.value)
       .pipe(takeUntil(this.destroy$))
@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

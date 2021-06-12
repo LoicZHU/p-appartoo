@@ -15,7 +15,7 @@ class PangolinsController {
     return res.json({ message: 'allo' });
   }
 
-  async getAll(req: Request, res: Response) {
+  async getAll(req: Request, res: Response): Promise<Response> {
     try {
       const pangolins = (await Pangolin.find({}).lean().exec()) || [];
 

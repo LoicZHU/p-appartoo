@@ -13,11 +13,11 @@ export class SignupService {
     this._apiUrl = environment.apiUrl;
   }
 
-  signup({ email, password, pangolinName }) {
+  signup({ email, password, pangolinName }): Observable<any> {
     return this._http.post(`${this._apiUrl}/signup`, {
       email,
       password,
       pangolinName,
-    }) as Observable<object>;
+    }) as Observable<any>;
   }
 }

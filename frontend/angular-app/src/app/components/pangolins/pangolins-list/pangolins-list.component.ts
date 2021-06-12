@@ -14,7 +14,7 @@ export class PangolinsListComponent implements OnInit, OnDestroy {
   pangolins$: Observable<any>;
   error: string;
   profileId: string;
-  profileFriends;
+  profileFriends: string[] = [];
 
   constructor(
     private readonly _pangolinsService: PangolinsService,
@@ -26,9 +26,20 @@ export class PangolinsListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getAllPangolins();
     this.getProfile(this.profileId);
+    this.subscribeToFriendsProfile();
   }
 
-  getAllPangolins() {
+  subscribeToFriendsProfile(): void {
+    this._profileService
+      .getFriends()
+      .pipe(
+        takeUntil(this.destroy$),
+        map((res) => res)
+      )
+      .subscribe((friends) => (this.profileFriends = [...friends]));
+  }
+
+  getAllPangolins(): void {
     this.pangolins$ = this._pangolinsService.getAll().pipe(
       takeUntil(this.destroy$),
       tap((res) => (this.error = res['error'])),
@@ -36,36 +47,45 @@ export class PangolinsListComponent implements OnInit, OnDestroy {
     );
   }
 
-  getProfile(id: string) {
-    this.profileFriends = this._profileService
+  getProfile(id: string): void {
+    this._profileService
       .getById(id)
       .pipe(
         takeUntil(this.destroy$),
-        tap((res) => console.log('tap get profile', res)),
         map((res) => res['data']['friends'])
       )
       .subscribe();
   }
 
-  addFriend(friendPangolinId: string) {
-    console.log('add friend', friendPangolinId);
+  addFriend(friendPangolinId: string): void {
+    const friendIdInProfileFriends =
+      this.profileFriends.includes(friendPangolinId);
 
-    this._profileService
-      .addFriend({ id: this.profileId, friendPangolinId })
-      .pipe(takeUntil(this.destroy$))
-      .subscribe();
+    if (friendIdInProfileFriends) {
+      return;
+    } else {
+      this._profileService
+        .addFriend({ id: this.profileId, friendPangolinId })
+        .pipe(takeUntil(this.destroy$))
+        .subscribe();
+    }
   }
 
-  removeFriend(friendPangolinId: string) {
-    console.log('remove friend', friendPangolinId);
+  removeFriend(friendPangolinId: string): void {
+    const friendIdInProfileFriends =
+      this.profileFriends.includes(friendPangolinId);
 
-    this._profileService
-      .removeFriend({ id: this.profileId, friendPangolinId })
-      .pipe(takeUntil(this.destroy$))
-      .subscribe();
+    if (!friendIdInProfileFriends) {
+      return;
+    } else {
+      this._profileService
+        .removeFriend({ id: this.profileId, friendPangolinId })
+        .pipe(takeUntil(this.destroy$))
+        .subscribe();
+    }
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

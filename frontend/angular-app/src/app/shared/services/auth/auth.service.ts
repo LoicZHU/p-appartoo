@@ -45,7 +45,7 @@ export class AuthService {
     return this._isAuthenticated$;
   }
 
-  setAuthenticated(value: boolean) {
+  setAuthenticated(value: boolean): void {
     this._isAuthenticated$.next(value);
   }
 
@@ -70,7 +70,7 @@ export class AuthService {
   }
 
   // --- current pangolin ID
-  setCurrentPangolinId(id: string) {
+  setCurrentPangolinId(id: string): void {
     !id
       ? localStorage.removeItem(this.currentPangolinIdKey)
       : localStorage.setItem(this.currentPangolinIdKey, id);

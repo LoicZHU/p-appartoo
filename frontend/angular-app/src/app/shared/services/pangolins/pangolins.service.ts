@@ -19,7 +19,7 @@ export class PangolinsService {
     ) as Observable<object>;
   }
 
-  getAll() {
+  getAll(): Observable<any> {
     return this._http.get(`${this._apiUrl}/pangolins`) as Observable<object>;
   }
 }

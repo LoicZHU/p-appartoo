@@ -13,8 +13,7 @@ import { Subject } from 'rxjs';
 export class ProfileFriendsListComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
   profileId: string;
-  profileData;
-  friends;
+  friends: any[];
   error: string;
 
   constructor(
@@ -29,12 +28,15 @@ export class ProfileFriendsListComponent implements OnInit, OnDestroy {
     this.getProfileInformations();
   }
 
-  getProfileInformations() {
-    this.profileData = this._profileService
+  getProfileInformations(): void {
+    this._profileService
       .edit(this.profileId)
       .pipe(
         takeUntil(this.destroy$),
-        tap((res) => (this.error = res['error'])),
+        tap((res) => {
+          console.log(res)
+          return (this.error = res['error'])
+        }),
         map((res) => res['data'])
       )
       .subscribe((data) => {
@@ -46,16 +48,14 @@ export class ProfileFriendsListComponent implements OnInit, OnDestroy {
       });
   }
 
-  removeFriend(friendPangolinId: string) {
-    console.log('remove friend', friendPangolinId);
-
+  removeFriend(friendPangolinId: string): void {
     this._profileService
       .removeFriend({ id: this.profileId, friendPangolinId })
       .pipe(takeUntil(this.destroy$))
       .subscribe();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy$.next(false);
     this.destroy$.unsubscribe();
   }

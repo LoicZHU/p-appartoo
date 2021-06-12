@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { Pangolin } from '../models/pangolin.model';
 
 class ProfileController {
-  async getById(req: Request, res: Response) {
+  async getById(req: Request, res: Response): Promise<Response> {
     const id = req.params.id;
 
     try {
@@ -14,7 +14,7 @@ class ProfileController {
     }
   }
 
-  async update(req: Request, res: Response) {
+  async update(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
     const { age, family, breed, feed } = req.body;
 

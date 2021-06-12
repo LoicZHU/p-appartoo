@@ -41,7 +41,7 @@ export class RequestInterceptorService implements HttpInterceptor {
     );
   }
 
-  private handleAuthError() {
+  private handleAuthError(): void {
     this._authService.deleteToken();
     this._router.navigateByUrl('login');
   }
