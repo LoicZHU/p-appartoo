@@ -20,4 +20,10 @@ export class SignupService {
       pangolinName,
     }) as Observable<any>;
   }
+
+  getPropertyAvailability({ value, property }): Observable<any> {
+    return this._http.get(
+      `${this._apiUrl}/signup/${property}/${value}`
+    ) as Observable<any>;
+  }
 }

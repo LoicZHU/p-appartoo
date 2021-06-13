@@ -37,12 +37,12 @@ const pangolinSchema: Schema<IPangolinBaseDocument> = new Schema(
       required: true,
       minlength: 8,
     },
-    // pangolinName: {
-    //   type: String,
-    //   required: true,
-    //   unique: true,
-    //   trim: true,
-    // },
+    pangolinName: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+    },
     age: {
       type: Number,
       default: 0,

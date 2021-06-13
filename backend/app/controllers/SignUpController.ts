@@ -29,6 +29,22 @@ class SignUpController {
       }
     }
   }
+
+  async getPropertyAvailability(req: Request, res: Response) {
+    const { property, value } = req.params;
+
+    try {
+      const pangolin = await Pangolin.find({ [property]: value });
+
+      if (pangolin.length <= 0) {
+        return res.status(200).json({ available: true });
+      } else {
+        return res.status(200).json({ available: false });
+      }
+    } catch (e) {
+      return res.status(400).json({ error: e.message });
+    }
+  }
 }
 
 export default new SignUpController();

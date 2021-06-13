@@ -4,12 +4,12 @@ import { SignupService } from '../../shared/services/signup/signup.service';
 import {
   debounceTime,
   distinctUntilChanged,
+  filter,
   map,
   switchMap,
   takeUntil,
-  tap,
 } from 'rxjs/operators';
-import { fromEvent, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { PangolinsService } from '../../shared/services/pangolins/pangolins.service';
 
 @Component({
@@ -18,10 +18,15 @@ import { PangolinsService } from '../../shared/services/pangolins/pangolins.serv
   styleUrls: ['./signup.component.scss'],
 })
 export class SignupComponent implements OnInit, OnDestroy {
-  @ViewChild('pangolinName') pangolinNameInput;
+  @ViewChild('pangolinNameInput') pangolinNameInput;
+  @ViewChild('emailInput') emailInput;
+
   private destroy$: Subject<boolean> = new Subject<boolean>();
-  readonly passwordMinLength: number = 8;
   form: FormGroup;
+  readonly passwordMinLength: number = 8;
+  emailAvailable: boolean = true;
+  usernameAvailable: boolean = true;
+  readonly checkUsername = new Subject<string>();
 
   constructor(
     private readonly _fb: FormBuilder,
@@ -33,24 +38,6 @@ export class SignupComponent implements OnInit, OnDestroy {
     this.initForm();
   }
 
-  checkPangolinNameExists() {
-    const pangolinNameInputEl = this.getNativeElement(this.pangolinNameInput);
-    const pangolinName$ = fromEvent(pangolinNameInputEl, 'keyup')
-      .pipe(
-        tap(() => console.log('tap'))
-        // map((e) => console.log('mape', e))
-      )
-      .subscribe(() => {
-        console.log('subs');
-      });
-
-    console.log(this.pangolinNameInput);
-  }
-
-  getNativeElement(el): void {
-    return el._elementRef.nativeElement;
-  }
-
   initForm(): void {
     this.form = this._fb.group({
       email: this._fb.control('', [Validators.required, Validators.email]),
@@ -58,23 +45,40 @@ export class SignupComponent implements OnInit, OnDestroy {
         Validators.required,
         Validators.minLength(this.passwordMinLength),
       ]),
-      // pangolinName: this._fb.control('', [Validators.required]),
+      pangolinName: this._fb.control('', [Validators.required]),
     });
 
-    // this.form.get('pangolinName').valueChanges
-    //   .pipe(
-    //     debounceTime(1000),
-    //     distinctUntilChanged(),
-    //     map((value: any) => String(value).toLowerCase().trim()),
-    //     switchMap((pangolinName) => {
-    //       console.log('switchMap0', pangolinName)
-    //       return this._pangolinsService.getByPangolinName(pangolinName)
-    //     }),
-    //   )
-    //   .subscribe(
-    //     xx => console.log('sub', xx),
-    //     err => console.log('err!!!!', err)
-    //   )
+    this.form
+      .get('email')
+      .valueChanges.pipe(
+        debounceTime(1000),
+        distinctUntilChanged(),
+        filter((value) => Boolean(value.trim())),
+        map((value: any) => String(value).toLowerCase().trim()),
+        switchMap((value) =>
+          this._signupService.getPropertyAvailability({
+            property: 'email',
+            value,
+          })
+        )
+      )
+      .subscribe((res) => (this.emailAvailable = res['available']));
+
+    this.form
+      .get('pangolinName')
+      .valueChanges.pipe(
+        debounceTime(1000),
+        distinctUntilChanged(),
+        filter((value) => Boolean(value.trim())),
+        map((value: any) => String(value).trim().toLowerCase()),
+        switchMap((value) =>
+          this._signupService.getPropertyAvailability({
+            property: 'pangolinName',
+            value,
+          })
+        )
+      )
+      .subscribe((res) => (this.usernameAvailable = res['available']));
   }
 
   onSubmit(): void {

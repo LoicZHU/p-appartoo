@@ -13,13 +13,7 @@ export class PangolinsService {
     this._apiUrl = environment.apiUrl;
   }
 
-  getByPangolinName(pangolinName) {
-    return this._http.get(
-      `${this._apiUrl}/panlogins/${pangolinName}`
-    ) as Observable<object>;
-  }
-
   getAll(): Observable<any> {
-    return this._http.get(`${this._apiUrl}/pangolins`) as Observable<object>;
+    return this._http.get(`${this._apiUrl}/pangolins`) as Observable<any>;
   }
 }
