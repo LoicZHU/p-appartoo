@@ -8,9 +8,11 @@ import {
   map,
   switchMap,
   takeUntil,
+  tap,
 } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { PangolinsService } from '../../shared/services/pangolins/pangolins.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signup',
@@ -31,7 +33,8 @@ export class SignupComponent implements OnInit, OnDestroy {
   constructor(
     private readonly _fb: FormBuilder,
     private readonly _signupService: SignupService,
-    private readonly _pangolinsService: PangolinsService
+    private readonly _pangolinsService: PangolinsService,
+    private readonly _router: Router
   ) {}
 
   ngOnInit(): void {
@@ -39,20 +42,25 @@ export class SignupComponent implements OnInit, OnDestroy {
   }
 
   initForm(): void {
+    const lettersAndNumbersRegex = /^[a-zA-Z0-9]+$/;
+
     this.form = this._fb.group({
       email: this._fb.control('', [Validators.required, Validators.email]),
       password: this._fb.control('', [
         Validators.required,
         Validators.minLength(this.passwordMinLength),
       ]),
-      pangolinName: this._fb.control('', [Validators.required]),
+      pangolinName: this._fb.control('', [
+        Validators.required,
+        Validators.pattern(lettersAndNumbersRegex),
+      ]),
     });
 
+    // --- check availability
     this.form
       .get('email')
       .valueChanges.pipe(
-        debounceTime(1000),
-        distinctUntilChanged(),
+        debounceTime(400),
         filter((value) => Boolean(value.trim())),
         map((value: any) => String(value).toLowerCase().trim()),
         switchMap((value) =>
@@ -62,15 +70,25 @@ export class SignupComponent implements OnInit, OnDestroy {
           })
         )
       )
-      .subscribe((res) => (this.emailAvailable = res['available']));
+      .subscribe((res) => {
+        const isAvailable = res['available'];
+        this.emailAvailable = isAvailable;
+
+        if (isAvailable === true) {
+          return;
+        } else {
+          this.form.get('email').setErrors({ incorrect: true });
+        }
+      });
 
     this.form
       .get('pangolinName')
       .valueChanges.pipe(
-        debounceTime(1000),
+        debounceTime(500),
         distinctUntilChanged(),
         filter((value) => Boolean(value.trim())),
         map((value: any) => String(value).trim().toLowerCase()),
+        tap((v) => console.log('v', v)),
         switchMap((value) =>
           this._signupService.getPropertyAvailability({
             property: 'pangolinName',
@@ -78,7 +96,16 @@ export class SignupComponent implements OnInit, OnDestroy {
           })
         )
       )
-      .subscribe((res) => (this.usernameAvailable = res['available']));
+      .subscribe((res) => {
+        const isAvailable = res['available'];
+        this.usernameAvailable = isAvailable;
+
+        if (isAvailable === true) {
+          return;
+        } else {
+          this.form.get('pangolinName').setErrors({ incorrect: true });
+        }
+      });
   }
 
   onSubmit(): void {
@@ -88,7 +115,7 @@ export class SignupComponent implements OnInit, OnDestroy {
       this._signupService
         .signup(this.form.value)
         .pipe(takeUntil(this.destroy$))
-        .subscribe();
+        .subscribe(() => this._router.navigate(['login']));
     }
   }
 

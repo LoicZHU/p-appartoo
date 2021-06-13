@@ -4,22 +4,27 @@ import { IToken, newToken } from '../utils/newToken';
 
 class SignUpController {
   async signUp(req: Request, res: Response): Promise<Response> {
-    const { email, password /*,pangolinName*/ } = req.body;
+    const lettersAndNumbersRegex = /^[a-zA-Z0-9]+$/;
+    const { email, password, pangolinName } = req.body;
     const validRequestBody = Boolean(
-      email && password && password.length >= 8 /*&& pangolinName*/,
+      email &&
+        password &&
+        password.length >= 8 &&
+        pangolinName &&
+        lettersAndNumbersRegex.test(pangolinName),
     );
 
     if (!validRequestBody) {
       return res.status(400).json({
         message:
-          "Un login et un mot de passe conformes sont requis pour s'enregistrer.",
+          "Le login, le mot de passe et le nom d'utilisateur doivent être conformes pour s'inscrire.",
       });
     } else {
       try {
         const pangolin = await Pangolin.create({
           email,
           password,
-          // pangolinName,
+          pangolinName,
         });
         const token: IToken = newToken(pangolin);
 

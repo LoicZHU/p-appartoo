@@ -12,7 +12,7 @@
         <label class="form-label" for="email">Email</label>
         <input #emailInput class="form-control" type="text" id="email" name="email" appAutofocus formControlName="email">
         <div class="text-danger my-2" *ngIf="form.get('email').touched && form.get('email').dirty &&
-        form.get('email').invalid">Le champs doit être un email.</div>
+        form.get('email').getError('email')">Le champs doit être un email.</div>
         <div class="text-danger my-2" *ngIf="!emailAvailable">Email déjà existant.</div>
       </div>
       <div class="mb-3">
@@ -22,8 +22,12 @@
         form.get('password').invalid">Le mot de passe n'est pas assez long.</div>
       </div>
       <div class="mb-3">
-        <label class="form-label" for="pangolinName">Nom d'utilisateur pangolin</label>
-        <input #pangolinNameInput class="form-control" type="text" id="pangolinName" name="pangolinName" formControlName="pangolinName">
+        <label class="form-label" for="pangolinName">Nom d'utilisateur (lettres et chiffres autorisés)</label>
+        <input #pangolinNameInput class="form-control" type="text" id="pangolinName" name="pangolinName"
+          formControlName="pangolinName">
+        <div class="text-danger my-2" *ngIf="form.get('pangolinName').dirty &&
+        form.get('pangolinName').errors &&
+        form.get('pangolinName').errors['pattern']">Nom d'utilisateur incorrect.</div>
         <div class="text-danger my-2" *ngIf="!usernameAvailable">Nom d'utilisateur déjà existant.</div>
       </div>
       <button class="btn btn-success" [disabled]="form.invalid">S'inscrire</button>
