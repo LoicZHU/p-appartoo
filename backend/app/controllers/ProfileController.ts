@@ -10,7 +10,7 @@ class ProfileController {
 
       return res.status(200).json({ data: pangolin });
     } catch (e) {
-      return res.status(404).json({ error: e.message });
+      return res.status(400).json({ error: e.message });
     }
   }
 
@@ -27,7 +27,7 @@ class ProfileController {
 
       return res.status(200).json({ data: updatedPangolin });
     } catch (e) {
-      return res.status(404).json({ error: e.message });
+      return res.status(400).json({ error: e.message });
     }
   }
 

@@ -1,17 +1,32 @@
 import { Request, Response } from 'express';
+import IsEmail from 'isemail';
+
 import { Pangolin } from '../models/pangolin.model';
 import { IToken, newToken } from '../utils/newToken';
 
 class SignUpController {
   async signUp(req: Request, res: Response): Promise<Response> {
+    const { password, pangolinName } = req.body;
+    let { email } = req.body;
+
+    const isEmailCorrect = typeof email == 'string' && IsEmail.validate(email);
+
+    if (!isEmailCorrect) {
+      // nothing
+    } else {
+      email = email.trim().toLowerCase();
+    }
+
     const lettersAndNumbersRegex = /^[a-zA-Z0-9]+$/;
-    const { email, password, pangolinName } = req.body;
+    const isPangolinNameCorrect =
+      typeof pangolinName == 'string' &&
+      lettersAndNumbersRegex.test(pangolinName);
+
     const validRequestBody = Boolean(
-      email &&
+      isEmailCorrect &&
         password &&
         password.length >= 8 &&
-        pangolinName &&
-        lettersAndNumbersRegex.test(pangolinName),
+        isPangolinNameCorrect,
     );
 
     if (!validRequestBody) {

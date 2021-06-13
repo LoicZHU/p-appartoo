@@ -88,7 +88,6 @@ export class SignupComponent implements OnInit, OnDestroy {
         distinctUntilChanged(),
         filter((value) => Boolean(value.trim())),
         map((value: any) => String(value).trim().toLowerCase()),
-        tap((v) => console.log('v', v)),
         switchMap((value) =>
           this._signupService.getPropertyAvailability({
             property: 'pangolinName',

@@ -1,14 +1,25 @@
 import { Request, Response } from 'express';
+import IsEmail from 'isemail';
 
 import { Pangolin } from '../models/pangolin.model';
 import { IToken, newToken } from '../utils/newToken';
 
 class AuthController {
   async login(req: Request, res: Response): Promise<Response> {
+    let email = req.body.email;
+    email = email.trim().toLowerCase();
+    const isEmailCorrect = typeof email == 'string' && IsEmail.validate(email);
+
+    if (!isEmailCorrect) {
+      // nothing
+    } else {
+      email = email.trim().toLowerCase();
+    }
+
     try {
       // checks the user in the database
       const pangolin = await Pangolin.findOne({
-        email: req.body.email,
+        email,
       }).exec();
 
       if (!pangolin) {
