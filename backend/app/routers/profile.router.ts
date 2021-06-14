@@ -5,10 +5,7 @@ const router: Router = Router();
 
 router.route('/:id').get(ProfileController.getById);
 
-router
-  .route('/:id/edit')
-  .get(ProfileController.getById)
-  .patch(ProfileController.update);
+router.route('/:id/edit').get(ProfileController.getById).patch(ProfileController.update);
 
 router.route('/:id/add').post(ProfileController.updateFriends);
 

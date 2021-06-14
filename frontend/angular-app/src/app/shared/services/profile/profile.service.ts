@@ -29,7 +29,7 @@ export class ProfileService {
         const friends = res['data']['friends'];
         const friendsIds = friends.map((friend) => friend._id);
 
-        this.friends$.next(friends)
+        this.friends$.next(friends);
         this.friendIds$.next(friendsIds);
       })
     );
@@ -79,12 +79,14 @@ export class ProfileService {
       .pipe(
         tap((res) => {
           const friendsIds = res['data']['friends'];
-          const friends = [...this.friends$.value]
-          const friendToRemoveIndex = this.friends$.value.findIndex((friendObj) => friendObj._id == friendPangolinId)
-          friends.splice(friendToRemoveIndex, 1)
+          const friends = [...this.friends$.value];
+          const friendToRemoveIndex = this.friends$.value.findIndex(
+            (friendObj) => friendObj._id == friendPangolinId
+          );
+          friends.splice(friendToRemoveIndex, 1);
 
           this.friendIds$.next(friendsIds);
-          this.friends$.next(friends)
+          this.friends$.next(friends);
         })
       );
   }

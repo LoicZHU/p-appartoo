@@ -4,11 +4,7 @@ import { LeanDocument } from 'mongoose';
 import { Pangolin } from '../models/pangolin.model';
 import { NextFunction, Request, Response } from 'express';
 
-export async function auth(
-  req: Request,
-  res: Response,
-  next: NextFunction,
-): Promise<Promise<Response> | void> {
+export async function auth(req: Request, res: Response, next: NextFunction): Promise<Promise<Response> | void> {
   const secretKey: string | undefined = process.env.TOKEN_SECRET_KEY;
   const bearer: string | undefined = req.headers.authorization;
   const errorMessage: string = "Vous n'êtes pas authentifié";
@@ -38,9 +34,7 @@ export async function auth(
     if (!payload) {
       return res.status(401).json({ error: errorMessage });
     } else {
-      const pangolin: LeanDocument<any> | null = await Pangolin.findById(
-        payload['pangolinId'],
-      )
+      const pangolin: LeanDocument<any> | null = await Pangolin.findById(payload['pangolinId'])
         .select('-password')
         .lean()
         .exec();

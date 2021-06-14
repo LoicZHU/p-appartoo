@@ -1,10 +1,4 @@
-import {
-  Document,
-  HookNextFunction,
-  Model,
-  Schema,
-  SchemaTypes,
-} from 'mongoose';
+import { Document, HookNextFunction, Model, Schema, SchemaTypes } from 'mongoose';
 import mongoose from 'mongoose';
 import argon2, { verify } from 'argon2';
 
@@ -78,33 +72,25 @@ const pangolinSchema: Schema<IPangolinBaseDocument> = new Schema(
   },
 );
 
-pangolinSchema.pre<IPangolin>(
-  'save',
-  async function hashPassword(next: HookNextFunction): Promise<void> {
-    try {
-      // docs: https://github.com/ranisalt/node-argon2#readme | https://www.npmjs.com/package/argon2
-      this.password = await argon2.hash(this.password, {
-        type: argon2.argon2id,
-      });
+pangolinSchema.pre<IPangolin>('save', async function hashPassword(next: HookNextFunction): Promise<void> {
+  try {
+    // docs: https://github.com/ranisalt/node-argon2#readme | https://www.npmjs.com/package/argon2
+    this.password = await argon2.hash(this.password, {
+      type: argon2.argon2id,
+    });
 
-      next();
-      return;
-    } catch (err) {
-      next(err);
-      return;
-    }
-  },
-);
+    next();
+    return;
+  } catch (err) {
+    next(err);
+    return;
+  }
+});
 
 // --- custom method
-pangolinSchema.methods.checkPassword = async function (
-  givenPassword,
-): Promise<boolean> {
+pangolinSchema.methods.checkPassword = async function (givenPassword): Promise<boolean> {
   const hash: string = this.password;
   return await verify(hash, givenPassword);
 };
 
-export const Pangolin: Model<IPangolinBaseDocument> = mongoose.model(
-  'pangolin',
-  pangolinSchema,
-);
+export const Pangolin: Model<IPangolinBaseDocument> = mongoose.model('pangolin', pangolinSchema);

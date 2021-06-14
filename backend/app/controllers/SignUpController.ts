@@ -18,21 +18,13 @@ class SignUpController {
     }
 
     const lettersAndNumbersRegex = /^[a-zA-Z0-9]+$/;
-    const isPangolinNameCorrect =
-      typeof pangolinName == 'string' &&
-      lettersAndNumbersRegex.test(pangolinName);
+    const isPangolinNameCorrect = typeof pangolinName == 'string' && lettersAndNumbersRegex.test(pangolinName);
 
-    const validRequestBody = Boolean(
-      isEmailCorrect &&
-        password &&
-        password.length >= 8 &&
-        isPangolinNameCorrect,
-    );
+    const validRequestBody = Boolean(isEmailCorrect && password && password.length >= 8 && isPangolinNameCorrect);
 
     if (!validRequestBody) {
       return res.status(400).json({
-        message:
-          "Le login, le mot de passe et le nom d'utilisateur doivent être conformes pour s'inscrire.",
+        message: "Le login, le mot de passe et le nom d'utilisateur doivent être conformes pour s'inscrire.",
       });
     } else {
       try {

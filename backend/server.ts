@@ -32,9 +32,7 @@ app.use('/api/profile', auth, profileRouter);
 export async function start() {
   try {
     await connect();
-    app.listen(PORT, () =>
-      console.log(`Server listening on: ${HOSTNAME}:${PORT}`),
-    );
+    app.listen(PORT, () => console.log(`Server listening on: ${HOSTNAME}:${PORT}`));
   } catch (err) {
     console.error(err);
   }
