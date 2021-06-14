@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-export function connect(url = 'mongodb://localhost/p-appartoo') {
+export function connect(url = `${process.env.DATABASE_HOST}/${process.env.DATABASE_NAME}`) {
   return mongoose
     .connect(url, {
       useNewUrlParser: true,
